@@ -5,7 +5,7 @@ import (
 	//"net/http"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/handlebars/v2"
-	//"github.com/gofiber/storage/postgres/v3"	
+	"github.com/gofiber/storage/postgres/v3"	
 )
 func main() {
 	
@@ -19,15 +19,20 @@ func main() {
 
     app.Static("/","./scripts")
 
-    //database := postgres.New()
+    database := postgres.New(postgres.Config{
+	Database: "fiber",
+	Username: "benjamin",
+	Password: "honeyrose",
+    })
+//	database := postgres.New()
+    var s string = "Ben"
 
-    //var s string = "Ben"
+	sb := []byte(s)
 
-    //sb := []byte(s)
+	database.Set("name", sb, 0)
 
-	//database.Set("name", sb, 30)
-
-	//database.Get("name")
+	var x, _ = database.Get("name")
+	var y string = string(x)
 
     app.Get("/", func(c *fiber.Ctx) error {
 		// return c.SendString("Hello, World 👋!")
@@ -37,7 +42,7 @@ func main() {
 	
 	app.Get("/get", func(c *fiber.Ctx) error {
   		// return c.Render("results", fiber.Map{"Results", "TEST"	})
-		return c.SendString("HTMX WORKS!")
+		return c.SendString(y)
 	})
 
     log.Fatal(app.Listen(":3000"))
