@@ -1,0 +1,29 @@
+services:
+    air-foxtrot:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      #image: cosmtrek/air 
+      #working_dir: /project-package
+      ports:
+        - 3000:3000
+      volumes:
+        - ./:/app/
+      depends_on:
+        - db 
+    db:
+      #hostname: postgres
+      image: postgres
+      restart: always
+      ports:
+        - 5432:5432
+      environment: 
+        POSTGRES_DB: todo
+        POSTGRES_USER: user123
+        POSTGRES_PASSWORD: pass123
+    adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 8080:8080
+

@@ -12,7 +12,8 @@ import (
 	//"github.com/gofiber/storage/postgres/v3"	
 )
 func main() {
-	databaseURL := "postgres://benjamin:honeyrose@localhost:5432/fiber"
+	fmt.Println("TESTING DATABASE CONNECTION")
+	databaseURL := "postgres://user123:pass123@db:5432/postgres"
 	conn, err := pgx.Connect(context.Background(), databaseURL)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
@@ -21,14 +22,15 @@ func main() {
 	defer conn.Close(context.Background())
 
 	var name string
-	var weight int64
-	err = conn.QueryRow(context.Background(), "select name, weight from widgets where id=$1", 42).Scan(&name, &weight)
+//	var weight int64
+	fmt.Println("Name query sent")
+	err = conn.QueryRow(context.Background(), "SELECT name from todo where isdone=true;").Scan(&name)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
 		os.Exit(1)
 	}
-
-	fmt.Println(name, weight)
+	fmt.Println("complete")
+	//fmt.Println(name, weight)
 
 	engine := handlebars.New("./views",".hbs")
 	
@@ -63,7 +65,7 @@ func main() {
 	
 	app.Get("/get", func(c *fiber.Ctx) error {
   		// return c.Render("results", fiber.Map{"Results", "TEST"	})
-		return c.SendString("wait")
+		return c.SendString(name)
 	})
 
     log.Fatal(app.Listen(":3000"))
