@@ -3,34 +3,46 @@ package main
 import (
 	"context"
 	"fmt"
+	"strings"
 	"os"
-	"log"
+	//"log"
 	//"net/http"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/handlebars/v2"
 	"github.com/jackc/pgx/v5"
-	//"github.com/gofiber/storage/postgres/v3"	
 )
+
+func getList(conn *pgx.Conn)(map[int]string) {
+
+	ret := map[int]string{}
+	var todos []string
+	var indices []int
+	rows, _ := conn.Query(context.Background(), "select name from todo;")
+		names, err := pgx.CollectRows(rows, pgx.RowTo[string])
+	indexrows, _ := conn.Query(context.Background(), "select id from todo;")
+		ids, err := pgx.CollectRows(indexrows, pgx.RowTo[int])
+	if err != nil { return map[int]string{}}
+	for i:= 0; i<len(names); i++ {
+		todos = append(todos, names[i])
+		indices = append(indices, ids[i])
+		ret[ids[i]] = names[i]
+		}
+	fmt.Println(ret)
+	return ret
+	}
+
 func main() {
-	fmt.Println("TESTING DATABASE CONNECTION")
+
+	var todos map[int]string
+
 	databaseURL := "postgres://user123:pass123@db:5432/postgres"
 	conn, err := pgx.Connect(context.Background(), databaseURL)
+
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
 	}
 	defer conn.Close(context.Background())
-
-	var name string
-//	var weight int64
-	fmt.Println("Name query sent")
-	err = conn.QueryRow(context.Background(), "SELECT name from todo where isdone=true;").Scan(&name)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
-		os.Exit(1)
-	}
-	fmt.Println("complete")
-	//fmt.Println(name, weight)
 
 	engine := handlebars.New("./views",".hbs")
 	
@@ -42,31 +54,51 @@ func main() {
 
 	app.Static("/","./scripts")
 
-//	database := postgres.New(postgres.Config{
-//	Database: "fiber",
-//	Username: "benjamin",
-//	Password: "honeyrose",
-//	})
-//	database := postgres.New()
-//    	var s string = "Benjamin"
-//
-//	sb := []byte(s)
-//
-//	database.Set("name", sb, 0)
-//
-//	var x, _ = database.Get("name")
-//	var y string = string(x)
-
-    app.Get("/", func(c *fiber.Ctx) error {
-		// return c.SendString("Hello, World 👋!")
+	app.Get("/", func(c *fiber.Ctx) error {
+		var todos map[int]string
+		todos = getList(conn)
     		return c.Render("index",
-			fiber.Map{"Title": "Hello, World!",})
+		fiber.Map{"Title": "", "Todoslist": todos,})
 	})
 	
 	app.Get("/get", func(c *fiber.Ctx) error {
-  		// return c.Render("results", fiber.Map{"Results", "TEST"	})
-		return c.SendString(name)
+		rows, _ := conn.Query(context.Background(), "select name from todo where isdone=true;")
+		names, err := pgx.CollectRows(rows, pgx.RowTo[string])
+		if err != nil { return err }
+		return c.SendString(strings.Join(names," "))
 	})
 
-    log.Fatal(app.Listen(":3000"))
+	app.Get("/set", func(c *fiber.Ctx) error {
+		todoname := c.Query("create-todo")
+	
+		rows := [][]any{
+			{todoname,"true"},
+		}
+		
+		_, err := conn.CopyFrom(
+    			context.Background(),
+    			pgx.Identifier{"todo"},
+    			[]string{"name","isdone"},
+    			pgx.CopyFromRows(rows),
+		)		
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Unable to copy to database: %v", err)
+			return err
+		}
+		todos = getList(conn)
+		return c.Render("todos", fiber.Map{"Todoslist": todos,})
+	})
+
+	app.Get("/del", func(c *fiber.Ctx) error {
+		tx, err := conn.Begin(context.Background())
+		if err != nil {return err}
+		defer tx.Rollback(context.Background())
+		_, err = tx.Exec(context.Background(), "delete from todo where id="+c.Query("todo-id")+";")
+		if err != nil {return err}
+		err = tx.Commit(context.Background())
+		if err != nil {return err}
+		todos = getList(conn)
+		return c.Render("todos", fiber.Map{"Todoslist": todos,})
+	})
+	app.Listen(":3000")
 }
