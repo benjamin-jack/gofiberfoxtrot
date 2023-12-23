@@ -1,6 +1,7 @@
-<li>
+<li style="display:inline-block;">
 	{{#each Todoslist}}
-	<p>{{this}}</p>
-	<input type="button" value="Delete" hx-get="/del?todo-id={{@key}}" name="todo-name" hx-parmas="" hx-target="#todos-list"/>
+	<p style="display:block;">{{this}}</p>
+	<input type="button" value=",/" hx-get="/del?todo-id={{@key}}" name="todo-name" hx-parmas="" hx-target="#todos-list"/>
+	<input type="button" value="X" hx-get="/del?todo-id={{@key}}" name="todo-name" hx-parmas="" hx-target="#todos-list"/>
 	{{/each}}
 </li>

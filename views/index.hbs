@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{{> 'partials/htmx_head' }}
 {{> 'partials/htmx_header' }}
 <h1>
 Todo List
@@ -11,11 +12,19 @@ Todo List
 <input type="search" id="create-todo"
 	name="create-todo" placeholder="Name of To-do"
 	hx-get="/set"
-	hx-trigger="keyup changed delay:500ms"
+	hx-trigger="change"
 	hx-target="#todos-list"
 	required>
 <!--button hx-get="/set" hx-trigger="click" hx-target="#todos-list">Save</button-->
-<div id="todos-list"></div>
-
+<div id="todos-list">
+	<!-- same as todos.hbs but allows for first look when loading -->
+	<li style="display:inline-block;">
+		{{#each Todoslist}}
+		<p style="display:block;">{{this}}</p>
+		<input type="button" value=",/" hx-get="/del?todo-id={{@key}}" name="todo-name" hx-parmas="" hx-target="#todos-list"/>
+		<input type="button" value="X" hx-get="/del?todo-id={{@key}}" name="todo-name" hx-parmas="" hx-target="#todos-list"/>
+		{{/each}}
+	</li>
+</div>
 
 {{> 'partials/htmx_footer' }}

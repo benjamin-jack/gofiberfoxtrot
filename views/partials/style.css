@@ -1,0 +1,44 @@
+h1 {
+}
+#gen_header {
+	width: 100%;
+	margin: 0 auto;
+	display: block;
+	background: #d0b7f4;
+}
+
+#gen_header>h1{margin:0 auto; width: 25%;}
+
+body {margin:0;}
+
+#headerMenu {
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	.menuItems{
+		list-style: none;
+		display:flex;
+		li {
+			margin: 1em;
+			a{
+				text-decoration: none;
+				color: white;
+				position: relation;
+				text-transform: uppercase;
+			}
+			a:hover {
+				background-color: blue;
+			}
+		}
+	}
+}
+#title_card {
+	width: 100%;
+	text-align: center;
+	display:block;
+	margin: 0 auto;
+	padding: 5px;
+	background: #eef4b7;
+}
+#title_card>h1,h4{
+	margin:0;}

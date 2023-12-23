@@ -13,18 +13,17 @@ import (
 )
 
 func getList(conn *pgx.Conn)(map[int]string) {
-
 	ret := map[int]string{}
-	var todos []string
-	var indices []int
+	//var todos []string
+	//var indices []int
 	rows, _ := conn.Query(context.Background(), "select name from todo;")
 		names, err := pgx.CollectRows(rows, pgx.RowTo[string])
 	indexrows, _ := conn.Query(context.Background(), "select id from todo;")
 		ids, err := pgx.CollectRows(indexrows, pgx.RowTo[int])
 	if err != nil { return map[int]string{}}
 	for i:= 0; i<len(names); i++ {
-		todos = append(todos, names[i])
-		indices = append(indices, ids[i])
+		//todos = append(todos, names[i])
+		//indices = append(indices, ids[i])
 		ret[ids[i]] = names[i]
 		}
 	fmt.Println(ret)
@@ -32,9 +31,6 @@ func getList(conn *pgx.Conn)(map[int]string) {
 	}
 
 func main() {
-
-	var todos map[int]string
-
 	databaseURL := "postgres://user123:pass123@db:5432/postgres"
 	conn, err := pgx.Connect(context.Background(), databaseURL)
 
@@ -51,14 +47,12 @@ func main() {
 	})
 
 	app.Static("/","./")
+	app.Static("/","/views/partials/style.css")
 
 	app.Static("/","./scripts")
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		var todos map[int]string
-		todos = getList(conn)
-    		return c.Render("index",
-		fiber.Map{"Title": "", "Todoslist": todos,})
+    		return c.Render("index",fiber.Map{"Todoslist": getList(conn),})	
 	})
 	
 	app.Get("/get", func(c *fiber.Ctx) error {
@@ -70,7 +64,9 @@ func main() {
 
 	app.Get("/set", func(c *fiber.Ctx) error {
 		todoname := c.Query("create-todo")
-	
+		if todoname == "" {
+			return c.Render("todos", fiber.Map{"Todoslist": getList(conn),})
+		}
 		rows := [][]any{
 			{todoname,"true"},
 		}
@@ -85,8 +81,7 @@ func main() {
 			fmt.Fprintf(os.Stderr, "Unable to copy to database: %v", err)
 			return err
 		}
-		todos = getList(conn)
-		return c.Render("todos", fiber.Map{"Todoslist": todos,})
+		return c.Render("todos", fiber.Map{"Todoslist": getList(conn),})
 	})
 
 	app.Get("/del", func(c *fiber.Ctx) error {
@@ -97,8 +92,7 @@ func main() {
 		if err != nil {return err}
 		err = tx.Commit(context.Background())
 		if err != nil {return err}
-		todos = getList(conn)
-		return c.Render("todos", fiber.Map{"Todoslist": todos,})
+		return c.Render("todos", fiber.Map{"Todoslist": getList(conn),})
 	})
 	app.Listen(":3000")
 }
