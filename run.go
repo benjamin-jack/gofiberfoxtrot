@@ -14,16 +14,12 @@ import (
 
 func getList(conn *pgx.Conn)(map[int]string) {
 	ret := map[int]string{}
-	//var todos []string
-	//var indices []int
 	rows, _ := conn.Query(context.Background(), "select name from todo;")
 		names, err := pgx.CollectRows(rows, pgx.RowTo[string])
 	indexrows, _ := conn.Query(context.Background(), "select id from todo;")
 		ids, err := pgx.CollectRows(indexrows, pgx.RowTo[int])
 	if err != nil { return map[int]string{}}
 	for i:= 0; i<len(names); i++ {
-		//todos = append(todos, names[i])
-		//indices = append(indices, ids[i])
 		ret[ids[i]] = names[i]
 		}
 	fmt.Println(ret)

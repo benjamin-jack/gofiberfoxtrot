@@ -1,44 +1,55 @@
-h1 {
-}
-#gen_header {
-	width: 100%;
-	margin: 0 auto;
-	display: block;
-	background: #d0b7f4;
-}
+html,body {margin: 0; padding: 0;}
 
-#gen_header>h1{margin:0 auto; width: 25%;}
+#headerMenu>.menuItems>li{
 
-body {margin:0;}
+}
 
 #headerMenu {
-	flex-direction: column;
+	display: flex;
 	justify-content: center;
-	align-items: center;
+	background: #d0b7f4;
 	.menuItems{
-		list-style: none;
-		display:flex;
+		width: 50%;
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+		height: 0.5em; 
+		justify-content: center;
+		padding: 0;
+		list-style-type: none;
 		li {
-			margin: 1em;
+			display:flex;
+			justify-content: center;
 			a{
 				text-decoration: none;
 				color: white;
-				position: relation;
-				text-transform: uppercase;
+				font-size: 1.5em;
 			}
 			a:hover {
-				background-color: blue;
 			}
+		}
+		li:hover {
 		}
 	}
 }
+
 #title_card {
-	width: 100%;
-	text-align: center;
-	display:block;
-	margin: 0 auto;
-	padding: 5px;
 	background: #eef4b7;
+	h1{
+		font-size: 500%;
+		display: flex;
+		justify-content: center;
+		padding: 0;
+		margin: 0;
+	}
+	h4{
+		display: flex;
+		justify-content: center;
+		margin: 0;
+	}
 }
-#title_card>h1,h4{
-	margin:0;}
+
+#todos-list {
+	display:flex;
+	justify-content: center;
+}
