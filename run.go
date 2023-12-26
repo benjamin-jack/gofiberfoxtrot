@@ -19,9 +19,7 @@ func getList(conn *pgx.Conn)(map[int]string) {
 	indexrows, _ := conn.Query(context.Background(), "select id from todo;")
 		ids, err := pgx.CollectRows(indexrows, pgx.RowTo[int])
 	if err != nil { return map[int]string{}}
-	for i:= 0; i<len(names); i++ {
-		ret[ids[i]] = names[i]
-		}
+	for i:= 0; i<len(names); i++ {	ret[ids[i]] = names[i]	}
 	fmt.Println(ret)
 	return ret
 	}
@@ -43,12 +41,11 @@ func main() {
 	})
 
 	app.Static("/","./")
-	app.Static("/","/views/partials/style.css")
 
 	app.Static("/","./scripts")
 
 	app.Get("/", func(c *fiber.Ctx) error {
-    		return c.Render("index",fiber.Map{"Todoslist": getList(conn),})	
+    		return c.Render("index",fiber.Map{"Todoslist": getList(conn),})
 	})
 	
 	app.Get("/get", func(c *fiber.Ctx) error {
@@ -60,6 +57,7 @@ func main() {
 
 	app.Get("/set", func(c *fiber.Ctx) error {
 		todoname := c.Query("create-todo")
+		fmt.Println(todoname)
 		if todoname == "" {
 			return c.Render("todos", fiber.Map{"Todoslist": getList(conn),})
 		}

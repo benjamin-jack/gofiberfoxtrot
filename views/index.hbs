@@ -1,30 +1,27 @@
 <!DOCTYPE html>
 {{> 'partials/htmx_head' }}
 {{> 'partials/htmx_header' }}
-<h1>
-Todo List
-</h1>
+<div id="todoUI">
+	<h3>Enter your Todo</h3>
+	<form	id="todoForm"
+		hx-get="/set"
+		hx-trigger="submit"
+		hx-target="#todos-list"
+	>
+		<input name="create-todo" placeholder="new input">
+		<button>Submit</button>
+	</form>
 
-{{ Title }}
-
-<!--button hx-get="/get" hx-trigger="click">!</button-->
-
-<input type="search" id="create-todo"
-	name="create-todo" placeholder="Name of To-do"
-	hx-get="/set"
-	hx-trigger="change"
-	hx-target="#todos-list"
-	required>
-<!--button hx-get="/set" hx-trigger="click" hx-target="#todos-list">Save</button-->
-<div id="todos-list">
-	<!-- same as todos.hbs but allows for first look when loading -->
-	<li style="display:inline-block;">
-		{{#each Todoslist}}
-		<p style="display:block;">{{this}}</p>
-		<input type="button" value=",/" hx-get="/del?todo-id={{@key}}" name="todo-name" hx-parmas="" hx-target="#todos-list"/>
-		<input type="button" value="X" hx-get="/del?todo-id={{@key}}" name="todo-name" hx-parmas="" hx-target="#todos-list"/>
-		{{/each}}
-	</li>
+	<div style="display:none;" hx-target="#todos-list" hx-trigger="every 1s" hx-get="/set"></div>
+	{{> 'todos' }}
+	<!--div id="todos-list">
+		<li style="display:inline-block;">
+			{{#each Todoslist}}
+			<p style="display:block;">{{this}}</p>
+			<input type="button" value="X" hx-get="/del?todo-id={{@key}}" name="todo-name" hx-parmas="" hx-target="#todos-list"/>
+			{{/each}}
+		</li>
+	</div-->
 </div>
 
 {{> 'partials/htmx_footer' }}
