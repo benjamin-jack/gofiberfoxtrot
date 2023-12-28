@@ -10,6 +10,10 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/handlebars/v2"
 	"github.com/jackc/pgx/v5"
+	//ADD TEMPL LATER?
+	"github.com/gofiber/fiber/v2/middleware/adaptor"
+	"github.com/a-h/templ"
+	"gofiberfoxtrot/views"
 )
 
 func getList(conn *pgx.Conn)(map[int]string) {
@@ -25,6 +29,7 @@ func getList(conn *pgx.Conn)(map[int]string) {
 	}
 
 func main() {
+
 	databaseURL := "postgres://user123:pass123@db:5432/postgres"
 	conn, err := pgx.Connect(context.Background(), databaseURL)
 
@@ -46,6 +51,16 @@ func main() {
 
 	app.Get("/", func(c *fiber.Ctx) error {
     		return c.Render("index",fiber.Map{"Todoslist": getList(conn),})
+	})
+
+	app.Get("/test", func(c *fiber.Ctx) error {
+		
+		//hello := views.hello("John")
+
+		handler := adaptor.HTTPHandler(templ.Handler(hello()))
+
+		return handler(c)
+
 	})
 	
 	app.Get("/get", func(c *fiber.Ctx) error {

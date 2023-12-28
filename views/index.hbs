@@ -7,6 +7,7 @@
 		hx-get="/set"
 		hx-trigger="submit"
 		hx-target="#todos-list"
+		_="on htmx:afterRequest reset() me"
 	>
 		<input name="create-todo" placeholder="new input">
 		<button>Submit</button>
@@ -14,14 +15,6 @@
 
 	<div style="display:none;" hx-target="#todos-list" hx-trigger="every 1s" hx-get="/set"></div>
 	{{> 'todos' }}
-	<!--div id="todos-list">
-		<li style="display:inline-block;">
-			{{#each Todoslist}}
-			<p style="display:block;">{{this}}</p>
-			<input type="button" value="X" hx-get="/del?todo-id={{@key}}" name="todo-name" hx-parmas="" hx-target="#todos-list"/>
-			{{/each}}
-		</li>
-	</div-->
 </div>
 
 {{> 'partials/htmx_footer' }}
