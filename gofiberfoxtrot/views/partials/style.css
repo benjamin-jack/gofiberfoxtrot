@@ -1,0 +1,101 @@
+html,body {margin: 0; padding: 0;}
+
+
+/* Generic Header */
+#headerHBS #headerMenu {
+	display: flex;
+	justify-content: center;
+	background: #d0b7f4;
+}
+
+#headerMenu .menuItems {
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	height: 0.5em; 
+	justify-content: center;
+	padding: 0;
+	list-style-type: none;	
+}
+
+#headerMenu .menuItems li {
+	display: flex;
+	justify-content: center;
+}
+
+#headerMenu .menuItems a{
+	text-decoration: none;
+	color: white;
+	font-size: 2em;
+}
+
+#headerHBS #title_card {
+	margin: 0;
+	background: #eef4b7;
+}
+
+#title_card h1{
+	font-size: 300%;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+}
+
+#title_card h4{
+	display: flex;
+	justify-content: center;
+	margin: 0;
+}
+
+/* Todo List */
+#todoUI {
+	display: block;
+	background: #CEC4BC;
+	padding: 2em 8em 2em 8em;
+	}
+
+#todoUI > h3 {
+	margin: 0;
+	font-size: 2em;
+	display: block;
+	text-align: center;
+	flex-direction: row;
+	justify-content: center;
+}
+
+#todoUI > #todoForm {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+#todoUI #todoForm input {
+	border-radius: 50px;
+	padding: 1em;
+	margin-right: 0.5em;
+}
+
+/*Table*/
+
+#todos-list {
+	list-style-type: none;
+	margin-top: 1em;
+}
+
+#todos-list tr th {
+	border-bottom-style: solid;
+}
+#todos-list tr td {
+	border-bottom-style: dotted;
+}
+#todos-list table {
+	padding: 16em;
+	background: white;
+	border: 2px red dotted;
+	border-radius: 2em;
+	text-align: center;
+	width: 100%;
+
+}
