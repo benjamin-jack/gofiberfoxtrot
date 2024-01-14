@@ -1,0 +1,38 @@
+package partials
+
+templ HTMLWrapper() {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<script src="../../scripts/htmx.min.js"></script>
+			<link rel="stylesheet" type="text/css" href="/views/partials/style.css"/>
+		</head>
+
+		<body>
+			{ children... }
+		</body>
+	
+		<footer>
+			<p>
+				Outfox I.T Limited, Copyright 2023
+			</p>
+		</footer>
+	</html>
+}
+
+templ HeaderMenu() {
+	<div id="headerBox">
+		<div id="title_card">
+			<h1>foxtrot</h1>
+			<h4>pre-alpha</h4>
+		</div>
+
+		<nav id="headerNav">
+			<ul class="menuItems">
+				<li><a href="#">Schedule</a></li>
+				<li><a>Accounts</a></li>
+				<li><a>Connect</a></li>
+			</ul>
+		</nav>
+	</div>
+}
