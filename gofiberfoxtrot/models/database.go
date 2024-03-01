@@ -8,7 +8,7 @@ import (
 
 var db *pgx.Conn
 
-func DatabaseConnect(){
+func databaseConnect(){
 	var err error
 	if db != nil { return }	
 	
@@ -23,7 +23,20 @@ func DatabaseConnect(){
 	return
 }
 
-func databaseMigrate(){
-	DatabaseConnect()
+func DatabaseMigrate(){
+	databaseConnect()
+
+	statement := `CREATE TABLE IF NOT EXISTS 
+	users(id SERIAL PRIMARY KEY, 
+	email VARCHAR(255) NOT NULL UNIQUE, 
+	password VARCHAR(255) NOT NULL, 
+	username VARCHAR(64) NOT NULL);`
+	
+	_, err := db.Exec(context.Background(),statement)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// ADD A TODOS INITIALIZATION METHOD AND FIX WITH CReATEDBY VARIABLE
 }
 

@@ -4,6 +4,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"context"
 	"fmt"
+	"strings"
 )
 
 type Todo struct {
@@ -54,6 +55,8 @@ func StatusTodo(id string){
 
 func AddTodo(name string){
 	if name == "" { return }
+	// Single quote escaping for PostGres
+	name = strings.Replace(name, "'", "''", -1)	
+	// ADD CREATED BY FOR USERS	
 	dbEditTodo(fmt.Sprintf("INSERT INTO todo (name, isdone) VALUES ('%s', false)", name))
 }
-

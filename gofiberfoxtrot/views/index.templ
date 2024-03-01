@@ -1,0 +1,27 @@
+package views
+
+import (
+)
+
+templ IndexMain(){
+	<form	id="registerForm"
+		method="POST"
+		action="/register"
+		>
+		<input type="email" name="email" placeholder="email" />
+		<input type="text" name="username" placeholder="username" />
+		<input type="password" name="password" placeholder="password" />
+		<input type="submit" value="Submit"/>
+	</form>
+	<form	id="loginForm"
+		method="POST"
+		action="/login"
+		>
+		<input type="email" name="email" placeholder="email" />
+		<input type="text" name="username" placeholder="username" />
+		<input type="password" name="password" placeholder="password" />
+		<input type="submit" value="Submit"/>
+	</form>	
+	
+	<h1 id="textspot"></h1>
+}

@@ -36,6 +36,7 @@ templ TodoList(todos []models.Todo) {
 			</tr>
 			
 			for _, todo := range todos {
+			
 			<tr>
 				<td>
 					<p>{todo.Name}</p>
@@ -45,7 +46,8 @@ templ TodoList(todos []models.Todo) {
 					style="background:green;"
 				} else {
 					style="background: red;"
-				}	> 
+				}	
+				> 
 					if todo.Status { 
 						<p>Done</p> 
 					} else { 
@@ -54,7 +56,7 @@ templ TodoList(todos []models.Todo) {
 				</td>
 				<td>
 					<input type="button" value="(done)" hx-patch={"/todos/edit?todo-id=" + strconv.Itoa(todo.Id)} name="todo-done" hx-target="#todos-list" />
-					<input type="button" value="x" hx-delete={"/todos/edit?todo-id=" + strconv.Itoa(todo.Id)} name="todo-name" hx-target="#todos-list"/>
+					<input type="button" value="x" hx-delete={"/todos/edit?todo-id=" + strconv.Itoa(todo.Id)} name="todo-name" hx-target="#todos-list" />
 				</td>
 			</tr>
 			}
