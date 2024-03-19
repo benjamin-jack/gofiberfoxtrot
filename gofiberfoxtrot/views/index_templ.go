@@ -25,7 +25,25 @@ func IndexMain() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"registerForm\" method=\"POST\" action=\"/register\"><input type=\"email\" name=\"email\" placeholder=\"email\"> <input type=\"text\" name=\"username\" placeholder=\"username\"> <input type=\"password\" name=\"password\" placeholder=\"password\"> <input type=\"submit\" value=\"Submit\"></form><form id=\"loginForm\" method=\"POST\" action=\"/login\"><input type=\"email\" name=\"email\" placeholder=\"email\"> <input type=\"text\" name=\"username\" placeholder=\"username\"> <input type=\"password\" name=\"password\" placeholder=\"password\"> <input type=\"submit\" value=\"Submit\"></form><h1 id=\"textspot\"></h1>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h1>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Var2 := `Register`
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var2)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><form id=\"registerForm\" method=\"POST\" action=\"/register\"><input type=\"email\" name=\"email\" placeholder=\"email\"> <input type=\"text\" name=\"username\" placeholder=\"username\"> <input type=\"password\" name=\"password\" placeholder=\"password\"> <input type=\"submit\" value=\"Submit\"></form><h1>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Var3 := `Login`
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><form id=\"loginForm\" method=\"POST\" action=\"/login\"><input type=\"email\" name=\"email\" placeholder=\"email\"> <input type=\"text\" name=\"username\" placeholder=\"username\"> <input type=\"password\" name=\"password\" placeholder=\"password\"> <input type=\"submit\" value=\"Submit\"></form><h1 id=\"textspot\"></h1>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
